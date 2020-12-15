@@ -1,0 +1,24 @@
+package vn.vnpay.commons.beans.cache;
+
+public enum TableModify {
+    QR_BANK,
+    QR_MASTER_MERCHANT,
+    QR_MERCHANT,
+    QR_TERMINAL,
+    QR_LOCAL_USER,
+    QR_LOCAL_FUNCTION,
+    QR_LOCAL_ROLS,
+    QR_LOCAL_GROUP,
+    QR_PROVINCE,
+    QR_DISTRICT,
+    QR_WARDS,
+    QR_MERCHANT_TYPE,
+    QR_BUSINESS_PRODUCT,
+    QR_DEPARTMENT,
+    QR_STATUS,
+    QR_MCC_INTERIOR,
+    QR_STAFF,
+    QR_DEPARTMENT_USER,
+    QR_MERCHANT_MENU,
+    QR_TEMPLATE
+}

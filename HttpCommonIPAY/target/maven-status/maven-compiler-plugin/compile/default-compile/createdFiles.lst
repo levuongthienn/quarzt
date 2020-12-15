@@ -1,0 +1,8 @@
+vn\vnpay\commons\http\utils\Main.class
+vn\vnpay\commons\http\bean\ResCode.class
+vn\vnpay\commons\http\utils\HttpUtils$1.class
+vn\vnpay\commons\http\HttpClientBean.class
+vn\vnpay\commons\http\bean\IntegrateBean.class
+vn\vnpay\commons\http\OkHttpManager.class
+vn\vnpay\commons\http\bean\IntegrateBean$IntegrateBeanBuilder.class
+vn\vnpay\commons\http\utils\HttpUtils.class

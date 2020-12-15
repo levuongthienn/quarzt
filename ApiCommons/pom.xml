@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>vn.vnpay</groupId>
+    <artifactId>ApiCommons</artifactId>
+    <version>1.0</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Dependency versions -->
+        <resteasy.version>3.0.19.Final</resteasy.version>
+        <servlet-api.version>3.1.0</servlet-api.version>
+        <jetty.version>8.2.0.v20160908</jetty.version>
+        <swagger.version>1.6.0</swagger.version>
+
+        <slf4j.version>1.7.21</slf4j.version>
+        <logback.version>1.1.8</logback.version>
+
+        <!-- Plugin versions -->
+        <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
+        <source.version>1.7</source.version>
+        <target.version>1.7</target.version>
+        <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
+        <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
+        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <download-maven-plugin.version>1.3.0</download-maven-plugin.version>
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
+    </properties>
+
+    <dependencies>
+        <!-- RESTEasy runtime dependencies -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>${resteasy.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-servlet-initializer</artifactId>
+            <version>${resteasy.version}</version>
+        </dependency>
+
+        <!-- Jetty runtime dependencies -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.jetty</groupId>-->
+<!--            <artifactId>jetty-servlet</artifactId>-->
+<!--            <version>${jetty.version}</version>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>8.2.0.v20160908</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jackson-provider</artifactId>
+            <version>3.0.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+        <!-- Swagger runtime dependencies -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-jaxrs</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>VNPAYCommons</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>TokenCommons</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>2.27</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>EntityCommons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+        </dependency>
+    </dependencies>
+</project>

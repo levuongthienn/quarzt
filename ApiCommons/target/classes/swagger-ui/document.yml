@@ -1,0 +1,626 @@
+swagger: '2.0'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+  termsOfService: 'urn:tos'
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0'
+host: '127.0.0.1:8088'
+basePath: /
+tags:
+  - name: merchant-controller
+    description: Merchant endpoint
+paths:
+  /merchant/add:
+    post:
+      tags:
+        - merchant-controller
+      summary: Add new merchant
+      description: |-
+        Các mã lỗi trả về: 
+        <pre>00: Thành công 
+        01: Thất bại 
+        02: Tạo vnmart thất bại 
+        08: Timeout 
+        11: Trùng mã merchant 
+        12: Trùng tên merchant
+        13: Trùng địa chỉ merchant 
+        14: Trùng tên viết tắt merchant 
+        15: Trùng tên terminal 
+        16: Trùng số điện thoại merchant app 
+        17: Trùng số điện thoại terminal app 
+        96: Bảo trì 
+        99: Lỗi 
+        </pre>
+        Mô tả request xem trực tiếp trong object request
+      operationId: addUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          description: request
+          required: true
+          schema:
+            $ref: '#/definitions/RegisterRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/BaseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+  /merchant/update:
+    post:
+      tags:
+        - merchant-controller
+      summary: Update merchant
+      description: |-
+        Các mã lỗi trả về: 
+        <pre>00: Thành công 
+        99: Lỗi 
+        </pre>
+        Mô tả request xem trực tiếp trong object request
+      operationId: updateUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          description: request
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateRequest'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/BaseResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
+definitions:
+  BaseResponse:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    title: BaseResponse
+  MerchantAccountInfo:
+    type: object
+    properties:
+      appUser:
+        type: string
+        description: Số điện thoại đăng ký merchant app
+        pattern: '(0|84|\+84)\d{9}'
+      merchantSiteUser:
+        type: string
+        description: Tài khoản merchant view. (Sẽ sinh tự động dựa vào tên viết tắt merchant)
+      receiveEmail:
+        type: string
+        description: Email nhận thông tin merchant app user
+      receivePhone:
+        type: string
+        description: Số điện thoại nhận thông tin merchant app user
+      registerOTT:
+        type: integer
+        format: int32
+        description: 'Đăng ký nhận OTT giao dịch thành công. (1: Có, 2: Không)'
+      registerSMS:
+        type: integer
+        format: int32
+        description: 'Đăng ký nhận SMS giao dịch thành công. (1: Có, 2: Không)'
+      toCreateUser:
+        type: integer
+        format: int32
+        description: 'Gửi thông tin tài khoản cho người tạo. (1: Có, 2: Không)'
+      toMerchant:
+        type: integer
+        format: int32
+        description: 'Gửi thông tin tài khoản cho merchant. (1: Có,  2: Không)'
+    title: MerchantAccountInfo
+  MerchantBean:
+    type: object
+    properties:
+      department:
+        type: integer
+        format: int32
+        description: Đơn vị phát triển. (id)
+        minimum: 1
+        exclusiveMinimum: false
+      district:
+        type: string
+        description: Mã Quận/Huyện
+        minLength: 2
+        maxLength: 6
+      id:
+        type: integer
+        format: int64
+      masterMerchant:
+        type: string
+        description: Master Merchant
+      mcTypeEnterprise:
+        type: string
+        description: 'Loại hình kinh doanh: (00: Công ty, 01:Hộ kinh doanh, 02:Cá nhân)'
+        minLength: 2
+        maxLength: 2
+      merchantAddress:
+        type: string
+        description: Địa chỉ đăng ký kinh doanh
+        minLength: 1
+        maxLength: 150
+      merchantBrand:
+        type: string
+        description: Tên viết tắt
+        pattern: '^[ 0-9a-zA-Z]{1,25}$'
+      merchantBusinessAddress:
+        type: string
+        description: Địa chỉ kinh doanh
+        minLength: 0
+        maxLength: 150
+      merchantCode:
+        type: string
+        description: Mã số thuế/CMND
+        pattern: '^[0-9a-zA-Z]{1,20}$'
+      merchantName:
+        type: string
+        description: Tên Merchant
+        minLength: 1
+        maxLength: 100
+      merchantType:
+        type: integer
+        format: int32
+        description: Id của loại hình doanh nghiệp
+        minimum: 1
+        exclusiveMinimum: false
+      merchantWebsite:
+        type: string
+        description: Website doanh nghiệp
+        minLength: 0
+        maxLength: 100
+      pinCode:
+        type: string
+        description: Mã bưu điện
+        minLength: 0
+        maxLength: 10
+      providerCode:
+        type: string
+        description: Mã nhà cung cấp (Billing)
+        minLength: 0
+        maxLength: 20
+      province:
+        type: string
+        description: Mã Tỉnh/Thành phố
+        minLength: 2
+        maxLength: 6
+      rmAuth:
+        type: integer
+        format: int32
+        description: 'Ủy quyền thu hộ. (1: Thu hộ, 2: Không thu hộ)'
+      staff:
+        type: integer
+        format: int32
+        description: Nhân viên. (id)
+        minimum: 1
+        exclusiveMinimum: false
+      wards:
+        type: string
+        description: Mã Phường/Xã
+        minLength: 2
+        maxLength: 6
+    title: MerchantBean
+  MerchantContact:
+    type: object
+    properties:
+      email:
+        type: string
+        description: Email liên hệ
+      email1:
+        type: string
+        description: Email liên hệ
+      email2:
+        type: string
+        description: Email liên hệ
+      name:
+        type: string
+        description: Họ và tên người liên hệ
+      phone:
+        type: string
+        description: Số điện thoại liên hệ
+      phone1:
+        type: string
+        description: Số điện thoại liên hệ
+      phone2:
+        type: string
+        description: Số điện thoại liên hệ
+    title: MerchantContact
+  MerchantDocument:
+    type: object
+    properties:
+      businessCert:
+        type: string
+        description: Giấy phép đăng ký kinh doanh
+      businessTaxCert:
+        type: string
+        description: Giấy phép đăng ký tài khoản với cơ quan thuế
+      contract:
+        type: string
+        description: Hợp đồng ký kết với VNPAY
+      domainCert:
+        type: string
+        description: Giấy phép đăng ký tên miền
+      identifyCard:
+        type: string
+        description: CMND/Thẻ căn cước công dân
+    title: MerchantDocument
+  TerminalAccountInfo:
+    type: object
+    properties:
+      appUser:
+        type: string
+        description: Số điện thoại đăng ký terminal app
+        pattern: '^$|(0|84|\+84)\d{9}'
+      createTerminalApp:
+        type: integer
+        format: int32
+        description: 'Tạo tài khoản terminal app. (1: Có, 2: Không)'
+      receiveEmail:
+        type: string
+        description: Email nhận thông tin terminal app user
+      receivePhone:
+        type: string
+        description: Số điện thoại nhận thông tin terminal app user
+      registerOTT:
+        type: integer
+        format: int32
+        description: 'Đăng ký nhận OTT giao dịch thành công. (1: Có, 2: Không)'
+      registerSMS:
+        type: integer
+        format: int32
+        description: 'Đăng ký nhận SMS giao dịch thành công. (1: Có, 2: Không)'
+      toCreateUser:
+        type: integer
+        format: int32
+        description: 'Gửi thông tin tài khoản cho người tạo. (1: Có, 2: Không)'
+      toTerminal:
+        type: integer
+        format: int32
+        description: 'Gửi thông tin tài khoản cho merchant. (1: Có,  2: Không)'
+    title: TerminalAccountInfo
+  TerminalBean:
+    type: object
+    properties:
+      accountHolder:
+        type: string
+        description: Chủ tài khoản thụ hưởng
+        minLength: 1
+        maxLength: 150
+      accountNumber:
+        type: string
+        description: Số tài khoản thụ hưởng
+        minLength: 1
+        maxLength: 30
+      bankBranch:
+        type: string
+        description: Chi nhánh
+        minLength: 1
+        maxLength: 100
+      bankCode:
+        type: string
+        description: Mã ngân hàng
+        minLength: 6
+        maxLength: 6
+      businessProduct:
+        type: string
+        description: Sản phẩm kinh doanh
+        minLength: 1
+        maxLength: 10
+      currency:
+        type: string
+        description: Loại tiền tệ
+        minLength: 1
+        maxLength: 10
+      district:
+        type: string
+        description: Mã Quận/Huyện
+        minLength: 2
+        maxLength: 6
+      facebook:
+        type: string
+        description: Facebook
+        minLength: 0
+        maxLength: 100
+      masterPan:
+        type: string
+        description: MASTER PAN
+        minLength: 0
+        maxLength: 30
+      mccVNPAY:
+        type: string
+        description: MCC VNPAY
+        minLength: 4
+        maxLength: 6
+      productDesc:
+        type: string
+        description: Mô tả sản phẩm kinh doanh
+        minLength: 0
+        maxLength: 200
+      province:
+        type: string
+        description: Mã Tỉnh/Thành phố
+        minLength: 2
+        maxLength: 6
+      registerQrcode:
+        type: integer
+        format: int32
+        description: 'Đăng ký dịch vụ QRCODE. (1: Có)'
+      registerVnpayment:
+        type: integer
+        format: int32
+        description: 'Đăng ký dịch vụ Cổng thanh toán. (1: Có, 2: Không)'
+      terminalBusinessAddress:
+        type: string
+        description: Địa chỉ kinh doanh của terminal
+        minLength: 0
+        maxLength: 150
+      terminalID:
+        type: string
+        description: Mã terminal
+        minLength: 1
+        maxLength: 15
+      terminalName:
+        type: string
+        description: Tên terminal
+        minLength: 1
+        maxLength: 20
+      tserviceCode:
+        type: string
+        description: Mã dịch vụ
+        minLength: 0
+        maxLength: 20
+      unionpayPan:
+        type: string
+        description: UNIONPAY PAN
+        minLength: 0
+        maxLength: 30
+      visaPan:
+        type: string
+        description: VISA PAN
+        minLength: 0
+        maxLength: 30
+      wards:
+        type: string
+        description: Mã Phường/Xã
+        minLength: 2
+        maxLength: 6
+      websiteBusiness:
+        type: string
+        description: Website terminal
+        minLength: 0
+        maxLength: 100
+    title: TerminalBean
+  TerminalContact:
+    type: object
+    properties:
+      email:
+        type: string
+        description: Email liên hệ
+      email1:
+        type: string
+        description: Email liên hệ
+      email2:
+        type: string
+        description: Email liên hệ
+      name:
+        type: string
+        description: Họ và tên người liên hệ
+      phone:
+        type: string
+        description: Số điện thoại liên hệ
+      phone1:
+        type: string
+        description: Số điện thoại liên hệ
+      phone2:
+        type: string
+        description: Số điện thoại liên hệ
+    title: TerminalContact
+  UserInfo:
+    type: object
+    properties:
+      email:
+        type: string
+        description: Email
+      userName:
+        type: string
+        description: Tài khoản
+    title: UserInfo
+
+  
+  
+  #Custom
+  RegisterRequest:
+    type: object
+    required:
+      - document
+      - merchant
+      - merchantContact
+      - midAccInfo
+      - terminal
+      - terminalContact
+      - tidAccInfo
+      - user
+    properties:
+      document:
+        description: Tài liệu đính kèm
+        $ref: '#/definitions/Mcr_MerchantDocument'
+      merchant:
+        description: Thông tin merchant
+        $ref: '#/definitions/Mcr_MerchantBean'
+      merchantContact:
+        description: Thông tin liên hệ merchant
+        $ref: '#/definitions/Mcr_MerchantContact'
+      midAccInfo:
+        description: 'Thông tin nhận tài khoản merchant & thông báo giao dịch '
+        $ref: '#/definitions/Mcr_MerchantAccountInfo'
+      terminal:
+        description: Thông tin terminal
+        $ref: '#/definitions/Mcr_TerminalBean'
+      terminalContact:
+        description: Thông tin liên hệ terminal
+        $ref: '#/definitions/Mcr_TerminalContact'
+      tidAccInfo:
+        description: 'Thông tin nhận tài khoản merchant & thông báo giao dịch '
+        $ref: '#/definitions/Mcr_TerminalAccountInfo'
+      user:
+        description: Thông tin người dùng
+        $ref: '#/definitions/Mcr_UserInfo'
+    title: RegisterRequest
+  Mcr_UserInfo:
+    allOf: 
+      - {$ref: '#/definitions/UserInfo'}
+      - type: object
+    required: [userName]
+  Mcr_MerchantBean:
+    allOf: 
+      - {$ref: '#/definitions/MerchantBean'}
+      - type: object
+    required: [merchantName, merchantBrand, masterMerchant, merchantType, mcTypeEnterprise, merchantAddress, province, district, wards, merchantCode, rmAuth, department, staff]
+  Mcr_MerchantDocument:
+    allOf: 
+      - {$ref: '#/definitions/MerchantDocument'}
+      - type: object
+  Mcr_MerchantContact:
+    allOf: 
+      - {$ref: '#/definitions/MerchantContact'}
+      - type: object
+    required: [name, phone, email]
+  Mcr_MerchantAccountInfo:
+    allOf: 
+      - {$ref: '#/definitions/MerchantAccountInfo'}
+      - type: object
+    required: [appUser, registerSMS, registerOTT, toCreateUser, toMerchant]
+  Mcr_TerminalBean:
+    allOf: 
+      - {$ref: '#/definitions/TerminalBean'}
+      - type: object
+    required: [terminalID, terminalName, businessProduct, accountHolder, mccVNPAY, accountNumber, bankCode, bankBranch, currency, province, district, wards, registerQrcode, registerVnpayment]
+  Mcr_TerminalContact:
+    allOf: 
+      - {$ref: '#/definitions/TerminalContact'}
+      - type: object
+    required: [name, phone, email]
+  Mcr_TerminalAccountInfo:
+    allOf: 
+      - {$ref: '#/definitions/TerminalAccountInfo'}
+      - type: object
+    required: [createTerminalApp, appUser, registerSMS, registerOTT, toCreateUser, toTerminal]
+  UpdateRequest:
+    type: object
+    required:
+      - merchant
+      - user
+    properties:
+      document:
+        description: Tài liệu đính kèm
+        $ref: '#/definitions/Upt_MerchantDocument'
+      merchant:
+        description: Thông tin merchant
+        $ref: '#/definitions/Upt_MerchantBean'
+      terminal:
+        description: Thông tin terminal
+        $ref: '#/definitions/Upt_TerminalBean'
+      user:
+        description: Thông tin người dùng
+        $ref: '#/definitions/Upt_UserInfo'
+    title: UpdateRequest
+  Upt_UserInfo:
+    type: object
+    required:
+      - userName
+    properties:
+      userName:
+        type: string
+        description: Tài khoản
+    title: UserInfo
+  Upt_MerchantBean:
+    type: object
+    required:
+      - merchantCode
+    properties:
+      merchantCode:
+        type: string
+        description: Mã số thuế/CMND
+        pattern: '^[0-9a-zA-Z]{1,20}$'
+      rmAuth:
+        type: integer
+        format: int32
+        description: 'Ủy quyền thu hộ. (1: Thu hộ, 2: Không thu hộ)'
+    title: MerchantBean
+  Upt_MerchantDocument:
+    type: object
+    properties:
+      businessCert:
+        type: string
+        description: Giấy phép đăng ký kinh doanh
+      businessTaxCert:
+        type: string
+        description: Giấy phép đăng ký tài khoản với cơ quan thuế
+      contract:
+        type: string
+        description: Hợp đồng ký kết với VNPAY
+      domainCert:
+        type: string
+        description: Giấy phép đăng ký tên miền
+      identifyCard:
+        type: string
+        description: CMND/Thẻ căn cước công dân
+    title: MerchantDocument
+  Upt_TerminalBean:
+    type: object
+    properties:
+      registerVnpayment:
+        type: integer
+        format: int32
+        description: 'Đăng ký dịch vụ Cổng thanh toán. (1: Có, 2: Không)'
+      unionpayPan:
+        type: string
+        description: UNIONPAY PAN
+        minLength: 0
+        maxLength: 30
+      visaPan:
+        type: string
+        description: VISA PAN
+        minLength: 0
+        maxLength: 30
+      masterPan:
+        type: string
+        description: MASTER PAN
+        minLength: 0
+        maxLength: 30
+    title: TerminalBean
